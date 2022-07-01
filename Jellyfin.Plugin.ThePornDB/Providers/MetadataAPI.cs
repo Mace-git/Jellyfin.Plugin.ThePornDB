@@ -301,8 +301,23 @@ namespace ThePornDB.Providers
             // result.Item.Name = (string)sceneData["name"];
             result.Item.ExternalId = (string)sceneData["name"];
             result.Item.OriginalTitle = string.Join(", ", sceneData["aliases"].Select(o => o.ToString().Trim()));
-            result.Item.Overview = (string)sceneData["bio"];
-
+            if (Plugin.Instance.Configuration.ActorsOverview == "1")
+            {
+                result.Item.Overview = (string)sceneData["bio"];
+            }
+            else if (Plugin.Instance.Configuration.ActorsOverview == "2")
+            {
+                result.Item.Overview = ActorsOverview.CustomFormat((string)sceneData["extras"]["gender"],sceneData);
+            }
+            else if (Plugin.Instance.Configuration.ActorsOverview=="3")
+            {
+                string view = ActorsOverview.CustomFormat((string)sceneData["extras"]["gender"], sceneData);
+                view+= "</br>" + (string)sceneData["bio"];
+                result.Item.Overview = view;
+            }
+            else
+            {
+            }
             var actorBornDate = (string)sceneData["extras"]["birthday"];
             if (DateTime.TryParseExact(actorBornDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var sceneDateObj))
             {
