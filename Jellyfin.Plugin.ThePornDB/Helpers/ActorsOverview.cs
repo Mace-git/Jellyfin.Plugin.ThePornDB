@@ -35,7 +35,7 @@ namespace ThePornDB.Helpers
 
             foreach (string extra in extraList)
             {
-                if (extra.Contains('<') == true)
+                if (extra.Contains('<') & (extra.Contains('>') == true)
                 {
                     overview += extra;
                 }
