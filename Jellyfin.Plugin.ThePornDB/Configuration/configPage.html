@@ -64,7 +64,27 @@
                             <input id="DisableActorsAutoIdentify" name="DisableActorsAutoIdentify" type="checkbox" is="emby-checkbox" />
                             <span>Disable Actors Auto Identify</span>
                         </label>
-                    </div>                   
+                    </div> 
+                    <div class="select-container">
+                        <select is="emby-select" id="ActorsOverview" label="Actors Overview Option">
+                            <option value="0">None</option>
+                            <option value="1">Default</option>
+                            <option value="2">Custom Extras</option>
+                            <option value="3">Custom Extras & Default(Bio)</option>
+                        </select>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputeLabel inputLabelUnfocused" for="ActorsOverviewFormat">Actor Custom (Extras from MetadataAPI)</label>
+                        <input id="ActorsOverviewFormat" name="ActorsOverviewFormat" type="text" is="emby-input" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputeLabel inputLabelUnfocused" for="ActorsOverviewFormatMale">Male Actor Custom (Extras from MetadataAPI)</label>
+                        <input id="ActorsOverviewFormatMale" name="ActorsOverviewFormatMale" type="text" is="emby-input" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputeLabel inputLabelUnfocused" for="ActorsOverviewFormatFemale">Female Actor Custom (Extras from MetadataAPI)</label>
+                        <input id="ActorsOverviewFormatFemale" name="ActorsOverviewFormatFemale" type="text" is="emby-input" />
+                    </div>
                     <button is="emby-button" type="submit" class="raised button-submit block emby-button">
                         <span>Save</span>
                     </button>
@@ -89,6 +109,10 @@
                     $('#UseUnmatchedTag').prop('checked', config.UseUnmatchedTag);
                     $('#UnmatchedTag').val(config.UnmatchedTag).change();
                     $('#DisableActorsAutoIdentify').prop('checked', config.DisableActorsAutoIdentify);
+                    $('#ActorsOverview').val(config.ActorsOverview).change();
+                    $('#ActorsOverviewFormat').val(config.ActorsOverviewFormat).change();
+                    $('#ActorsOverviewFormatMale').val(config.ActorsOverviewFormatMale).change();
+                    $('#ActorsOverviewFormatFemale').val(config.ActorsOverviewFormatFemale).change();
                     Dashboard.hideLoadingMsg();
                 });
             });
@@ -106,6 +130,10 @@
                     config.UseUnmatchedTag = $('#UseUnmatchedTag').prop('checked');
                     config.UnmatchedTag = $('#UnmatchedTag').val();
                     config.DisableActorsAutoIdentify = $('#DisableActorsAutoIdentify').prop('checked');
+                    config.ActorsOverview = $('#ActorsOverview').val();
+                    config.ActorsOverviewFormat = $('#ActorsOverviewFormat').val()
+                    config.ActorsOverviewFormatMale = $('#ActorsOverviewFormatMale').val()
+                    config.ActorsOverviewFormatFemale = $('#ActorsOverviewFormatFemale').val()
                     ApiClient.updatePluginConfiguration(ThePornDBConfig.pluginUniqueId, config).then(function (result) {
                         Dashboard.processPluginConfigurationUpdateResult(result);
                     });
