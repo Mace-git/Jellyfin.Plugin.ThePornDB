@@ -28,6 +28,11 @@ namespace ThePornDB.Configuration
             this.UnmatchedTag = "Missing From ThePornDB";
 
             this.DisableActorsAutoIdentify = false;
+            
+            this.ActorsOverview = "Default";
+            this.ActorsOverviewFormat = "measurements";
+            this.ActorsOverviewFormatMale = "measurements";
+            this.ActorsOverviewFormatFemale = "measurements";
         }
 
         public string MetadataAPIToken { get; set; }
@@ -49,5 +54,13 @@ namespace ThePornDB.Configuration
         public string UnmatchedTag { get; set; }
 
         public bool DisableActorsAutoIdentify { get; set; }
+        
+        public string ActorsOverview { get; set; }
+        
+        public string ActorsOverviewFormat { get; set; }
+        
+        public string ActorsOverviewFormatMale { get; set; }
+        
+        public string ActorsOverviewFormatFemale { get; set; }
     }
 }
