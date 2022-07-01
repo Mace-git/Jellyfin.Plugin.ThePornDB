@@ -29,7 +29,7 @@ namespace ThePornDB.Configuration
 
             this.DisableActorsAutoIdentify = false;
             
-            this.ActorsOverview = "Default";
+            this.ActorsOverview = "1";
             this.ActorsOverviewFormat = "measurements";
             this.ActorsOverviewFormatMale = "measurements";
             this.ActorsOverviewFormatFemale = "measurements";
