@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediaBrowser.Controller.Entities;
@@ -19,7 +21,7 @@ namespace ThePornDB.Providers
 {
     public class MoviesImages : IRemoteImageProvider
     {
-        public string Name => Plugin.Instance.Name + " Movies";
+        public string Name => Plugin.Instance.Name;
 
         public bool Supports(BaseItem item) => item is Movie;
 
@@ -36,9 +38,31 @@ namespace ThePornDB.Providers
         public async Task<IEnumerable<RemoteImageInfo>> GetImages(BaseItem item, CancellationToken cancellationToken)
 #endif
         {
-            var result = await Base.GetImages(item, SceneType.Movie, cancellationToken).ConfigureAwait(false);
+            IEnumerable<RemoteImageInfo> images = new List<RemoteImageInfo>();
 
-            return result;
+            if (item == null || !item.ProviderIds.TryGetValue(this.Name, out var curID))
+            {
+                return images;
+            }
+
+            try
+            {
+                images = await MetadataAPI.SceneImages(curID, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"GetImages error: \"{e}\"");
+            }
+
+            if (images.Any())
+            {
+                foreach (var image in images)
+                {
+                    image.ProviderName = Plugin.Instance.Name;
+                }
+            }
+
+            return images;
         }
 
 #if __EMBY__
