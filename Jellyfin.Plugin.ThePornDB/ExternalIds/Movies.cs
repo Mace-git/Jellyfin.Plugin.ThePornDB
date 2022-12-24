@@ -12,16 +12,16 @@ namespace ThePornDB
     public class Movies : IExternalId
     {
 #if __EMBY__
-        public string Name => Plugin.Instance.Name + " Movie";
+        public string Name => Plugin.Instance.Name;
 #else
-        public string ProviderName => Plugin.Instance.Name + " Movie";
+        public string ProviderName => Plugin.Instance.Name;
 
         public ExternalIdMediaType? Type => ExternalIdMediaType.Movie;
 #endif
 
-        public string Key => Plugin.Instance.Name + "Movie";
+        public string Key => Plugin.Instance.Name;
 
-        public string UrlFormatString => Consts.MovieURL;
+        public string UrlFormatString => Consts.SceneURL;
 
         public bool Supports(IHasProviderIds item) => item is Movie;
     }

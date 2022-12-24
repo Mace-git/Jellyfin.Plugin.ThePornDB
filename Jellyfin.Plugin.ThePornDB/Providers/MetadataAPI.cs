@@ -47,7 +47,7 @@ namespace ThePornDB.Providers
             return json;
         }
 
-        public static async Task<List<RemoteSearchResult>> SceneSearch(string searchTitle, string oshash, string url, string providerIdName, CancellationToken cancellationToken)
+        public static async Task<List<RemoteSearchResult>> SceneSearch(string searchTitle, string oshash, CancellationToken cancellationToken)
         {
             var result = new List<RemoteSearchResult>();
             if (string.IsNullOrEmpty(searchTitle))
@@ -55,8 +55,10 @@ namespace ThePornDB.Providers
                 return result;
             }
 
-            url = string.Format(url, searchTitle, oshash);
+            var url = string.Format(Consts.APISceneSearchURL, searchTitle, oshash);
+
             var data = await GetDataFromAPI(url, cancellationToken).ConfigureAwait(false);
+
             if (data == null || !data.ContainsKey("data") || data["data"].Type != JTokenType.Array)
             {
                 return result;
@@ -66,7 +68,7 @@ namespace ThePornDB.Providers
             {
                 result.Add(new RemoteSearchResult
                 {
-                    ProviderIds = { { providerIdName, (string)searchResult["id"] } },
+                    ProviderIds = { { Plugin.Instance.Name, (string)searchResult["id"] } },
                     Name = (string)searchResult["title"],
                     ImageUrl = (string)searchResult["poster"],
                     PremiereDate = (DateTime)searchResult["date"],
@@ -76,7 +78,7 @@ namespace ThePornDB.Providers
             return result;
         }
 
-        public static async Task<MetadataResult<Movie>> SceneUpdate(string sceneID, string url, CancellationToken cancellationToken)
+        public static async Task<MetadataResult<Movie>> SceneUpdate(string sceneID, CancellationToken cancellationToken)
         {
             var result = new MetadataResult<Movie>()
             {
@@ -89,7 +91,7 @@ namespace ThePornDB.Providers
                 return result;
             }
 
-            url = string.Format(url, sceneID);
+            var url = string.Format(Consts.APISceneURL, sceneID);
             var sceneData = await GetDataFromAPI(url, cancellationToken).ConfigureAwait(false);
             if (sceneData == null || !sceneData.ContainsKey("data") || sceneData["data"].Type != JTokenType.Object)
             {
@@ -200,7 +202,7 @@ namespace ThePornDB.Providers
             return result;
         }
 
-        public static async Task<IEnumerable<RemoteImageInfo>> SceneImages(string sceneID, string url, CancellationToken cancellationToken)
+        public static async Task<IEnumerable<RemoteImageInfo>> SceneImages(string sceneID, CancellationToken cancellationToken)
         {
             var result = new List<RemoteImageInfo>();
 
@@ -209,7 +211,7 @@ namespace ThePornDB.Providers
                 return result;
             }
 
-            url = string.Format(url, sceneID);
+            var url = string.Format(Consts.APISceneURL, sceneID);
             var sceneData = await GetDataFromAPI(url, cancellationToken).ConfigureAwait(false);
             if (sceneData == null || !sceneData.ContainsKey("data") || sceneData["data"].Type != JTokenType.Object)
             {
